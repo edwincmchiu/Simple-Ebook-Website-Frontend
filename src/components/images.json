@@ -1,0 +1,87 @@
+{
+    "books": [
+        {
+            "title": "Book 1",
+            "author": "Amy",
+            "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+            "cover": "images/1.jpg",
+            "publisher": "Clarion Books",
+            "isbn": "0156012197",
+            "pages": [
+                null,
+                "images/1.jpg",
+                "images/2.jpg",
+                "images/3.jpg",
+                "images/4.jpg",
+                "images/5.jpg",
+                "images/6.jpg"
+            ]
+        },
+        {
+            "title": "Book 2",
+            "author": "Amy",
+            "description": "this is a book",
+            "cover": "images/2.jpg",
+            "publisher": "Clarion Books",
+            "isbn": "0156012197",
+            "pages": [
+                null,
+                "images/1.jpg",
+                "images/2.jpg",
+                "images/3.jpg",
+                "images/4.jpg",
+                "images/3.jpg",
+                "images/6.jpg"
+            ]
+        },
+        {
+            "title": "Book 1",
+            "author": "Amy",
+            "description": "this is a book",
+            "cover": "images/1.jpg",
+            "publisher": "Clarion Books",
+            "isbn": "0156012197",
+            "pages": [
+                null,
+                "images/1.jpg",
+                "images/2.jpg",
+                "images/3.jpg",
+                "images/4.jpg",
+                "images/5.jpg",
+                "images/6.jpg"
+            ]
+        },
+        {
+            "title": "Book 1",
+            "author": "Amy",
+            "description": "this is a book",
+            "cover": "images/1.jpg",
+            "publisher": "Clarion Books",
+            "isbn": "0156012197",
+            "pages": [
+                null,
+                "images/1.jpg",
+                "images/2.jpg",
+                "images/3.jpg",
+                "images/4.jpg",
+                "images/5.jpg",
+                "images/6.jpg"
+            ]
+        },
+        {
+            "title": "The Little Prince",
+            "author": "Antoine de Saint-Exupéry",
+            "description": "A pilot crashes in the Sahara Desert and encounters a strange young boy who calls himself the Little Prince. The Little Prince has traveled there from his home on a lonely, distant asteroid with a single rose. The story that follows is a beautiful and at times heartbreaking meditation on human nature. The Little Prince is one of the best-selling and most translated books of all time, universally cherished by children and adults alike, and Richard Howard's translation of the beloved classic beautifully reflects Saint-Exupéry's unique and gifted style, bringing the English text as close as possible to the French in language, style, and spirit. In this special edition, the artwork has been restored to match in detail and in color Saint-Exupéry's original artwork. This definitive English-language edition of The Little Prince will capture the hearts of readers of all ages.",
+            "cover": "images/prince.jpg",
+            "publisher": "Clarion Books",
+            "isbn": "0156012197",
+            "pages": [
+                null,
+                "images/prince.jpg",
+                "images/1.jpg",
+                "images/2.jpg"
+            ]
+        }
+    ]
+  }
+  
