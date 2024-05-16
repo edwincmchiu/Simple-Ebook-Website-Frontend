@@ -22,12 +22,9 @@ export default {
   methods: {
     async login() {
       try {
-        const username = String(this.username);
-        const password = String(this.password);
-
         const requestBody = new URLSearchParams();
-        requestBody.append('username', username);
-        requestBody.append('password', password);
+        requestBody.append('username', this.username);
+        requestBody.append('password', this.password);
 
         const response = await fetch('http://0.0.0.0:8000/login', {
           method: 'POST',
@@ -40,7 +37,12 @@ export default {
         if (!response.ok) {
           throw new Error('Login failed with status: ' + response.status);
         }
-        alert('success');
+
+        const data = await response.json();
+        const token = data.access_token;
+        
+        localStorage.setItem('token', token);
+        alert('Login successful');
         this.$router.push('/dashboard');
         
       } catch (error) {
@@ -60,31 +62,23 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: #1a1a1a;
-  /* Dark background color */
   padding: 20px;
   border-radius: 15px;
-  /* Increase border radius for decorative effect */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-  /* Soft shadow */
   border: 2px solid #6b472c;
-  /* Border color */
 }
 
 .loginBox h2 {
   margin-bottom: 20px;
   font-size: 24px;
-  /* Increase font size */
   color: #b8860b;
-  /* Text color */
   text-align: center;
-  /* Center text */
 }
 
 .loginBox label {
   display: block;
   margin-bottom: 10px;
   color: #b8860b;
-  /* Label text color */
 }
 
 .loginBox input[type="text"],
@@ -93,31 +87,23 @@ export default {
   padding: 10px;
   margin-bottom: 15px;
   border: 1px solid #6b472c;
-  /* Input border color */
   border-radius: 8px;
-  /* Input border radius */
   background-color: #302720;
-  /* Input background color */
   color: #b8860b;
-  /* Input text color */
 }
 
 .loginBox button {
   width: 100%;
   padding: 12px;
   background-color: #6b472c;
-  /* Button background color */
   color: #fff;
-  /* Button text color */
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  /* Smooth transition */
 }
 
 .loginBox button:hover {
   background-color: #8b5a2b;
-  /* Darker background color on hover */
 }
 </style>

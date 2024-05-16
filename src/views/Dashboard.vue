@@ -1,52 +1,43 @@
 <template>
-    <div>
-      <h1>Welcome, {{ username }}!</h1>
-      <!-- Your dashboard content goes here -->
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        username: ''
-      };
-    },
-    methods: {
-      async fetchUserData() {
-        try {
-          const token = localStorage.getItem('Access-Token');
-          if (!token) {
-            throw new Error('Token not found');
-          }
-  
-          const response = await fetch('http://0.0.0.0:8000/user/1', {
-            method: 'GET',
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          });
-  
-          if (!response.ok) {
-            throw new Error('Failed to fetch user data');
-          }
-  
-          const userData = await response.json();
-          this.username = userData.username;
-  
-        } catch (error) {
-          console.error('Failed to fetch user data', error);
-          alert("fail");
-        }
+  <div>
+    <h2>Dashboard</h2>
+    <p>Welcome, {{ username }}!</p>
+    <p>Welcome, {{ username }}!</p>
+    <p>Welcome, {{ username }}!</p>
+    <p>Welcome, {{ username }}!</p>
+  </div>
+</template>
+
+<script>
+import apiClient from '../services/apiClient.js'; // Adjust the import path as needed
+
+export default {
+  data() {
+    return {
+      username: null
+    };
+  },
+  async created() {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://0.0.0.0:8000/user/1', {
+        method: 'GET',
+        headers: {
+          'access-token': token
+        },
+      });
+      const data = await response.json();
+      this.username = data.username;
+      if (!response.ok) {
+        throw new Error('failed with status: ' + response.status);
       }
-    },
-    mounted() {
-      this.fetchUserData();
+    } catch (error) {
+      console.error('Failed to fetch user info:', error);
     }
-  };
-  </script>
-  
-  <style>
-  /* Dashboard component styles go here */
-  </style>
-  
+  }
+};
+</script>
+
+<style>
+/* Your styles */
+</style>
