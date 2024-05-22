@@ -4,6 +4,8 @@
       <div class="logo">Pics Library</div>
       <nav class="nav-links">
         <router-link to="/" class="nav-link">Home</router-link>
+		<router-link to="/about" class="nav-link">About Us</router-link>
+        <router-link to="/rankings" class="nav-link">Rankings</router-link>
         <router-link to="/login" class="nav-link">Login</router-link>
         <router-link to="/dashboard" class="nav-link">Dashboard</router-link>
       </nav>

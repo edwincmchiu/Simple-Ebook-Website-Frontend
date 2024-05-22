@@ -3,6 +3,8 @@ import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 import Dashboard from '../views/Dashboard.vue'
 import TestView from '../views/TestView.vue'
+import Rankings from '../views/RankingsView.vue'
+import AboutUs from '../views/AboutUsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,6 +23,16 @@ const router = createRouter({
       path: '/test',
       name: 'Test',
       component: TestView, 
+    },
+    {
+      path: '/rankings',
+      name: 'Rankings',
+      component: Rankings, 
+    },
+    {
+      path: '/about',
+      name: 'About Us',
+      component: AboutUs, 
     },
     {
       path: '/dashboard',
