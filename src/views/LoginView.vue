@@ -40,8 +40,9 @@ export default {
 
         const data = await response.json();
         const token = data.access_token;
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('userId', data.user_id);
         
-        localStorage.setItem('token', token);
         alert('Login successful');
         this.$router.push('/dashboard');
         

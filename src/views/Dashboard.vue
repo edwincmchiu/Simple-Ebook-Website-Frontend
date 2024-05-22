@@ -1,10 +1,18 @@
 <template>
   <div>
     <h2>Dashboard</h2>
-    <p>Welcome, {{ username }}!</p>
-    <p>Welcome, {{ username }}!</p>
-    <p>Welcome, {{ username }}!</p>
-    <p>Welcome, {{ username }}!</p>
+    <div class="profile-info">
+      <h2>User Profile</h2>
+      <div class="user-info">
+        <p v-if="error" class="error-message">{{ error }}</p>
+        <div v-else>
+          <p><strong>Username:</strong> {{ user.username }}</p>
+          <p><strong>Points:</strong> {{ user.point }}</p>
+          <!-- Add more profile information here as needed -->
+        </div>
+      </div>
+      <button @click="logout">Logout</button>
+    </div>
   </div>
 </template>
 
@@ -14,25 +22,39 @@ import apiClient from '../services/apiClient.js'; // Adjust the import path as n
 export default {
   data() {
     return {
-      username: null
+      user: {},
+      error: null
     };
   },
   async created() {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://0.0.0.0:8000/user/1', {
+      const userId = localStorage.getItem('userId');
+
+      const response = await fetch(`http://localhost:8000/user/${userId}`, {
         method: 'GET',
         headers: {
-          'access-token': token
-        },
+          'Access-Token': token
+        }
       });
-      const data = await response.json();
-      this.username = data.username;
+
       if (!response.ok) {
-        throw new Error('failed with status: ' + response.status);
+        throw new Error('Failed to fetch user data');
       }
+
+      const data = await response.json();
+      this.user = data;
     } catch (error) {
-      console.error('Failed to fetch user info:', error);
+      console.error('Error:', error);
+      this.error = 'Failed to fetch user data. Please try again later.';
+    }
+  },
+  methods: {
+    logout() {
+      sessionStorage.clear();
+      localStorage.clear(); // Clear local storage if needed
+      // Redirect to the login page
+      window.location.href = 'index.html';
     }
   }
 };
