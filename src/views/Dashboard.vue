@@ -52,14 +52,13 @@ export default {
   methods: {
     logout() {
       sessionStorage.clear();
-      localStorage.clear(); // Clear local storage if needed
-      // Redirect to the login page
-      window.location.href = 'index.html';
+      localStorage.clear();
+      window.location.href = '/login';
     }
   }
 };
 </script>
 
 <style>
-/* Your styles */
+
 </style>

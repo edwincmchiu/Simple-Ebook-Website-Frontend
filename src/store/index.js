@@ -1,22 +1,35 @@
-import { createStore } from 'vuex'
+import { reactive } from 'vue';
 
-export default createStore({
-  state: {
-    isAuthenticated: false // Initial authentication state
-  },
-  mutations: {
-    // Mutation to set authentication state
-    setAuth(state, isAuthenticated) {
-      state.isAuthenticated = isAuthenticated
+const state = reactive({
+  isAuthenticated: !!localStorage.getItem('token'),
+  userData: {}
+});
+
+export function useStore() {
+  return state;
+}
+
+export async function fetchUserData() {
+  const token = localStorage.getItem('token');
+  const userId = localStorage.getItem('userId');
+
+  if (token && userId) {
+    try {
+      const response = await fetch(`http://localhost:8000/user/${userId}`, {
+        method: 'GET',
+        headers: {
+          'Access-Token': token
+        }
+      });
+
+      if (response.ok) {
+        state.userData = await response.json();
+        state.isAuthenticated = true;
+      } else {
+        console.error('Failed to fetch user data:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error);
     }
-  },
-  actions: {
-    // Action to log in user and set authentication state
-    login({ commit }) {
-      // Perform login logic here, e.g., authenticate with backend
-      // After successful login, set isAuthenticated to true
-      commit('setAuth', true)
-    }
-  },
-  modules: {}
-})
+  }
+}

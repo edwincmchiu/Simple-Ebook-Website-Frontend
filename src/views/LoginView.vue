@@ -12,6 +12,8 @@
 </template>
 
 <script>
+import { fetchUserData } from '@/store/index.js';
+
 export default {
   data() {
     return {
@@ -42,7 +44,7 @@ export default {
         const token = data.access_token;
         localStorage.setItem('token', data.token);
         localStorage.setItem('userId', data.user_id);
-        
+        await fetchUserData();
         alert('Login successful');
         this.$router.push('/dashboard');
         

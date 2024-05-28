@@ -1,24 +1,14 @@
 <template>
-  <div>
-    <div class="header">
-      <div class="logo">Pics Library</div>
-      <nav class="nav-links">
-        <router-link to="/" class="nav-link">Home</router-link>
-		<router-link to="/about" class="nav-link">About Us</router-link>
-        <router-link to="/rankings" class="nav-link">Rankings</router-link>
-        <router-link to="/login" class="nav-link">Login</router-link>
-        <router-link to="/dashboard" class="nav-link">Dashboard</router-link>
-      </nav>
-    </div>
-
-    <router-view />
-    
-    <Footer />
-  </div>
+	<div>
+		<Header />
+		<router-view />
+		<Footer />
+	</div>
 </template>
 
 <script setup>
-import Footer from '@/components/Footer.vue'
+import Header from '@/components/Header.vue';
+import Footer from '@/components/Footer.vue';
 </script>
 
 <style>
@@ -27,8 +17,7 @@ body {
 	padding: 0;
 	margin: 0;
 	background-color: #130d0a;
-  font-family: Arial;
-	/* font-family: "Playfair Display", serif; */
+	font-family: Arial, sans-serif;
 	color: #fff;
 }
 
@@ -41,7 +30,7 @@ body {
 	top: 0;
 	left: 0;
 	width: 100%;
-	background-color:#130d0a;
+	background-color: #130d0a;
 	color: #fff;
 	padding: 0 20px;
 	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
@@ -67,5 +56,4 @@ body {
 .nav-link:hover {
 	color: #f39c12;
 }
-
 </style>

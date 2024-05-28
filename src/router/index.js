@@ -44,10 +44,10 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = document.cookie.includes('token'); // Check if token exists in cookies
+  const isAuthenticated = !!localStorage.getItem('token'); // Update the authentication state
   
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!isAuthenticated) {
+    if (!isAuthenticated.value) {
       next('/login');
     } else {
       next();

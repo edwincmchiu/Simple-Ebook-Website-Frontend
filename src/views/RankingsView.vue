@@ -2,11 +2,18 @@
     <div class="card text-center m-3">
         <h5 class="card-header">Rankings</h5>
         <div class="card-body">rankings: {{ msg }}</div>
+        <button v-if="isAuthenticated">Special Button</button>
     </div>
 </template>
 
 <script>
 export default {
+    setup() {
+        const isAuthenticated = !!localStorage.getItem('token');
+        return {
+        isAuthenticated
+        };
+    },
     name: "getRequestAsyncAwait",
     data() {
         return {
@@ -15,7 +22,7 @@ export default {
     },
     async created() {
         try {
-            const url = "http://0.0.0.0:8000/books/1";
+            const url = "http://0.0.0.0:8000/book/1";
             const response = await fetch(url);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
