@@ -3,7 +3,7 @@
     <div class="library">
       <div class="wrapper">
         <div class="books-container">
-          <div v-for="(book, index) in books" :key="index" class="book" @click="openBookDisplay(index)">
+          <div v-for="(book, index) in books" :key="book.id" class="book" @click="openBookDisplay(index)">
             <img :src="book.cover" alt="Book Cover" class="book-cover">
             <span class="book-title">{{ book.title }}</span>
           </div>
@@ -24,7 +24,7 @@
           <div class="description">{{ books[selectedBook].description }}</div>
         </div>
         <div class="book-display">
-          <BookDisplay :id="selectedBook" />
+          <BookDisplay :id="books[selectedBook].id" />
         </div>
       </div>
     </transition>
@@ -45,78 +45,102 @@ const closeBookDisplay = () => {
   selectedBook.value = null;
 }
 
+const books = ref([]);
+
 const fetchBooks = async () => {
   try {
-    const response = await fetch('src/components/images.json');
-    const data = await response.json();
-    return data.books.map(book => ({
-      title: book.title,
-      author: book.author,
-      description: book.description,
-      cover: book.cover,
-      publisher: book.publisher,
-      isbn: book.isbn,
-      pages: book.pages
-    }));
+    const response = await fetch('http://0.0.0.0:8000/book/', { method: 'GET' });
+    const booksData = await response.json();
+
+    const books = await Promise.all(
+      booksData.map(async (book) => {
+        const pagesResponse = await fetch(`http://0.0.0.0:8000/book/${book.id}/pages`, { method: 'GET' });
+        const pagesData = await pagesResponse.json();
+
+        // Assume the first page contains the cover image's UUID
+        const coverImageUUID = pagesData[0]?.uuid;
+
+        return {
+          ...book,
+          cover: `http://localhost:8080/${coverImageUUID}.png`,
+          pages: pagesData,
+        };
+      })
+    );
+
+    return books;
   } catch (error) {
     console.error('Error fetching books:', error);
     return [];
   }
 }
 
-const books = ref([]);
-
 (async () => {
   books.value = await fetchBooks();
 })();
 </script>
 
-
 <style scoped>
 .page {
   padding: 50px;
-  position: relative; /* Ensure proper positioning for absolute elements */
+  position: relative;
+  /* Ensure proper positioning for absolute elements */
 }
 
 .library {
   line-height: 1.5;
-  max-width: 80%; /* Limit the maximum width of the library */
-  margin: 0 auto; /* Center the library horizontally */
+  max-width: 80%;
+  /* Limit the maximum width of the library */
+  margin: 0 auto;
+  /* Center the library horizontally */
 }
 
 .wrapper {
   display: flex;
-  place-items: flex-start; /* Align items to the start */
+  place-items: flex-start;
+  /* Align items to the start */
   flex-direction: column;
 }
 
 .books-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px; /* Add gap between grid items */
-  justify-content: flex-start; /* Start filling the grid from the left */
+  gap: 20px;
+  /* Add gap between grid items */
+  justify-content: flex-start;
+  /* Start filling the grid from the left */
 }
 
 .book {
   cursor: pointer;
   position: relative;
-  overflow: hidden; /* Hide overflowing content */
-  border-radius: 10px; /* Add rounded corners */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add transition effects */
-  flex: 0 0 calc(25% - 20px); /* Each book occupies one fourth of the container width with spacing */
-  margin-bottom: 20px; /* Add bottom margin to create space between rows */
+  overflow: hidden;
+  /* Hide overflowing content */
+  border-radius: 10px;
+  /* Add rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* Add subtle shadow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  /* Add transition effects */
+  flex: 0 0 calc(25% - 20px);
+  /* Each book occupies one fourth of the container width with spacing */
+  margin-bottom: 20px;
+  /* Add bottom margin to create space between rows */
 }
 
 .book:hover {
-  transform: translateY(-5px); /* Lift the book on hover */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Enhance shadow on hover */
+  transform: translateY(-5px);
+  /* Lift the book on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  /* Enhance shadow on hover */
 }
 
 .book-cover {
   width: 100%;
-  height: auto; /* Maintain aspect ratio */
-  border-radius: 10px 10px 10px 10px; /* Rounded corners only at the top */
+  height: auto;
+  /* Maintain aspect ratio */
+  border-radius: 10px 10px 10px 10px;
+  /* Rounded corners only at the top */
 }
 
 .book-title {
@@ -144,18 +168,24 @@ const books = ref([]);
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0); /* Initial state: fully transparent */
-  z-index: 9998; /* Ensure it's behind the book display container */
-  transition: background-color 0.3s ease; /* Add transition effect */
+  background-color: rgba(0, 0, 0, 0);
+  /* Initial state: fully transparent */
+  z-index: 9998;
+  /* Ensure it's behind the book display container */
+  transition: background-color 0.3s ease;
+  /* Add transition effect */
 }
 
 .slide-overlay.active {
-  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
-  pointer-events: auto; /* Enable pointer events when active */
+  background-color: rgba(0, 0, 0, 0.7);
+  /* Semi-transparent background */
+  pointer-events: auto;
+  /* Enable pointer events when active */
 }
 
 .slide-overlay:not(.active) {
-  pointer-events: none; /* Disable pointer events when not active */
+  pointer-events: none;
+  /* Disable pointer events when not active */
 }
 
 .book-info {
@@ -169,7 +199,9 @@ const books = ref([]);
   margin-bottom: 10px;
 }
 
-.author, .publisher, .isbn {
+.author,
+.publisher,
+.isbn {
   font-size: 18px;
   color: #666;
   margin-bottom: 10px;

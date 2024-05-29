@@ -17,7 +17,7 @@
       @flip-right-end="onFlipRightEnd"
     >
       <div class="action-bar">
-        <left-icon
+        <LeftIcon
           class="btn left"
           :class="{ disabled: !flipbook.canFlipLeft }"
           @click="flipbook.flipLeft"
@@ -25,7 +25,7 @@
         <span class="page-num">
           Page {{ flipbook.page }} of {{ flipbook.numPages }}
         </span>
-        <right-icon
+        <RightIcon
           class="btn right"
           :class="{ disabled: !flipbook.canFlipRight }"
           @click="flipbook.flipRight"
@@ -49,21 +49,22 @@ export default {
   data() {
     return {
       pages: [],
+      pagesHiRes: [], // Assuming you might have higher resolution pages
       hasMouse: true,
       pageNum: null,
     }
   },
   watch: {
     id() {
-      this.resetBook();
+      this.fetchImages();
     },
   },
   methods: {
     async fetchImages() {
       try {
-        const response = await fetch('src/components/images.json');
+        const response = await fetch(`http://0.0.0.0:8000/book/${this.id}/pages`);
         const data = await response.json();
-        this.pages = data.books[this.id].pages;
+        this.pages = data.map(page => `http://localhost:8080/${page.uuid}.png`);
         this.resetBook();
       } catch (error) {
         console.error('Error fetching images:', error);
@@ -93,7 +94,6 @@ export default {
   },
 }
 </script>
-
 
 <style>
 html, body {

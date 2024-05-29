@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="header">
-      <div class="logo">Pics Library</div>
+      <router-link to="/" class="logo">Pics Library</router-link>
       <nav class="nav-links">
         <router-link to="/" class="nav-link">Home</router-link>
         <router-link to="/about" class="nav-link">About Us</router-link>
@@ -10,6 +10,7 @@
         <router-link v-if="state.isAuthenticated && state.userData.username" to="/dashboard" class="nav-link">
           {{ state.userData.username }}'s Dashboard
         </router-link>
+        <button v-if="state.isAuthenticated && state.userData.username" @click="logout" class="nav-link" style="padding: 0; border: none; background: none;">Logout</button>
       </nav>
     </div>
   </div>
@@ -24,6 +25,13 @@ const state = useStore();
 onMounted(() => {
   fetchUserData();
 });
+
+function logout() {
+  sessionStorage.clear();
+  localStorage.clear();
+  window.location.href = '/login';
+}
+
 </script>
 
 <style>
@@ -62,6 +70,7 @@ body {
 }
 
 .nav-link {
+  font-size: 16px;
   color: white;
   text-decoration: none;
   margin-left: 20px;
