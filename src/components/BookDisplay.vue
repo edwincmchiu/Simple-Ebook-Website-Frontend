@@ -62,9 +62,15 @@ export default {
   methods: {
     async fetchImages() {
       try {
-        const response = await fetch(`http://0.0.0.0:8000/book/${this.id}/pages`);
+        const token = localStorage.getItem('token');
+        const userId = localStorage.getItem('userId');
+        const response = await fetch(`http://0.0.0.0:8080/api/book/${this.id}/pages`, {
+          headers: {
+          'Access-Token': token
+          }
+        });
         const data = await response.json();
-        this.pages = data.map(page => `http://localhost:8080/${page.uuid}.png`);
+        this.pages = data.map(page => `http://localhost:8080/image/${page.uuid}`);
         this.resetBook();
       } catch (error) {
         console.error('Error fetching images:', error);

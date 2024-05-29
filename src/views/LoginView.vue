@@ -8,6 +8,12 @@
       <input type="password" v-model="password" required>
       <button type="submit">Login</button>
     </form>
+    <div class="container2">
+    <div class="content2">
+      <div class="text2">Don't have an account? </div>
+      <router-link to="/register" class="link2">Register.</router-link>
+    </div>
+  </div>
   </div>
 </template>
 
@@ -28,7 +34,7 @@ export default {
         requestBody.append('username', this.username);
         requestBody.append('password', this.password);
 
-        const response = await fetch('http://0.0.0.0:8000/login', {
+        const response = await fetch('http://0.0.0.0:8080/api/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -108,5 +114,28 @@ export default {
 
 .loginBox button:hover {
   background-color: #8b5a2b;
+}
+
+.container2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+}
+
+.content2 {
+  display: flex;
+  align-items: center;
+  padding-top: 4px;
+}
+
+.text2 {
+  display: flex;
+}
+
+.link2 {
+  color: #b8860b;
+  display: flex;
 }
 </style>

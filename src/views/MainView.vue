@@ -4,8 +4,8 @@
       <div class="wrapper">
         <div class="books-container">
           <div v-for="(book, index) in books" :key="book.id" class="book" @click="openBookDisplay(index)">
-            <img :src="book.cover" alt="Book Cover" class="book-cover">
-            <span class="book-title">{{ book.title }}</span>
+            <img :src="book.cov" alt="Book Cover" class="book-cover">
+            <span class="book-title">{{ book.cover }}</span>
           </div>
         </div>
       </div>
@@ -31,6 +31,7 @@
   </div>
 </template>
 
+
 <script setup>
 import { ref } from 'vue'
 import BookDisplay from '../components/BookDisplay.vue'
@@ -49,36 +50,22 @@ const books = ref([]);
 
 const fetchBooks = async () => {
   try {
-    const response = await fetch('http://0.0.0.0:8000/book/', { method: 'GET' });
+    const response = await fetch('http://0.0.0.0:8080/api/book/', { method: 'GET' });
     const booksData = await response.json();
 
-    const books = await Promise.all(
-      booksData.map(async (book) => {
-        const pagesResponse = await fetch(`http://0.0.0.0:8000/book/${book.id}/pages`, { method: 'GET' });
-        const pagesData = await pagesResponse.json();
-
-        // Assume the first page contains the cover image's UUID
-        const coverImageUUID = pagesData[0]?.uuid;
-
-        return {
-          ...book,
-          cover: `http://localhost:8080/${coverImageUUID}.png`,
-          pages: pagesData,
-        };
-      })
-    );
-
-    return books;
+    // Assign the fetched books data to the books ref
+    books.value = booksData.map(book => ({
+      ...book,
+      cov: `http://localhost:8080/image/${book.cover}`
+    }));
   } catch (error) {
     console.error('Error fetching books:', error);
-    return [];
   }
 }
 
-(async () => {
-  books.value = await fetchBooks();
-})();
+fetchBooks();
 </script>
+
 
 <style scoped>
 .page {

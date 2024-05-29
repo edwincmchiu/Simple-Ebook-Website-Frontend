@@ -5,6 +5,7 @@ import Dashboard from '../views/Dashboard.vue'
 import TestView from '../views/TestView.vue'
 import Rankings from '../views/RankingsView.vue'
 import AboutUs from '../views/AboutUsView.vue'
+import RegisterView from '../views/RegisterView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,7 +39,12 @@ const router = createRouter({
       path: '/dashboard',
       name: 'Dashboard',
       component: Dashboard,
-      //meta: { requiresAuth: true } // Specify that this route requires authentication
+      meta: { requiresAuth: true } // Specify that this route requires authentication
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: RegisterView, 
     }
   ]
 })
@@ -47,7 +53,7 @@ router.beforeEach((to, from, next) => {
   const isAuthenticated = !!localStorage.getItem('token'); // Update the authentication state
   
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!isAuthenticated.value) {
+    if (!isAuthenticated) {
       next('/login');
     } else {
       next();

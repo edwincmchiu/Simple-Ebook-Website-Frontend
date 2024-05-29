@@ -31,7 +31,7 @@ export default {
       const token = localStorage.getItem('token');
       const userId = localStorage.getItem('userId');
 
-      const response = await fetch(`http://localhost:8000/user/${userId}`, {
+      const response = await fetch(`http://localhost:8080/api/user/${userId}`, {
         method: 'GET',
         headers: {
           'Access-Token': token
