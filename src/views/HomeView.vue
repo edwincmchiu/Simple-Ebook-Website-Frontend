@@ -9,8 +9,9 @@
         <div class='layer-overlay layer' data-depth='0.85' data-type='parallax'></div>
         <!-- New text layer -->
         <div class="text-layer">
-          <h1>Welcome to Pics Library</h1>
-          <p>Discover amazing images and explore the world of art.</p>
+        <h1 v-if="state.isAuthenticated">Welcome back, {{ state.userData.username }}!</h1>
+        <h1 v-else>Welcome to Pics Library! Please Log in to see all the functions!</h1>
+        <p>Discover amazing images and explore the world of art.</p>
         </div>
       </div>
       <div id='hero-mobile'></div>
@@ -22,10 +23,14 @@
   </template>
   
   <script setup>
+  fetchUserData();
   import { onMounted } from 'vue'
+  import { useStore, fetchUserData } from '@/store/index.js';  // Adjust the path if necessary
   import MainView from '../views/MainView.vue'
   
   onMounted(() => {
+    fetchUserData();
+
     window.addEventListener('scroll', () => {
       const topDistance = window.pageYOffset
       const layers = document.querySelectorAll("[data-type='parallax']")
