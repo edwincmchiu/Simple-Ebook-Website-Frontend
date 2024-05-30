@@ -23,11 +23,13 @@
   </template>
   
   <script setup>
-  fetchUserData();
   import { onMounted } from 'vue'
   import { useStore, fetchUserData } from '@/store/index.js';  // Adjust the path if necessary
   import MainView from '../views/MainView.vue'
-  
+
+  const state = useStore();
+
+      
   onMounted(() => {
     fetchUserData();
 
